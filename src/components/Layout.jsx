@@ -1,5 +1,5 @@
 import { Flex, Box } from "@chakra-ui/react";
-import Navbar from "./Navbar/Navbar";
+import Sidebar from "./Sidebar/Sidebar";
 import { useLocation } from "react-router-dom";
 const Layout = ({ children }) => {
   const { pathName } = useLocation;
@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
     <Flex>
       {pathName !== "/auth" && (
         <Box w={{ base: "70px", md: "240px" }}>
-          <Navbar />
+          <Sidebar />
         </Box>
       )}
 
