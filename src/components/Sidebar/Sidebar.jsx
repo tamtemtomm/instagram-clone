@@ -19,7 +19,7 @@ const SidebarItems = [
   {
     icon: <Avatar size={"sm"} name="Burak Orknez" src="/profilepic.png" />,
     text: "Profile",
-    link: "/asaprogrammer",
+    link: "/tamtemtom",
   },
 ];
 
