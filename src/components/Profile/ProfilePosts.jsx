@@ -1,9 +1,14 @@
+// Import dependencies
+import { useState, useEffect } from "react";
+
+// Import ChakraUI components
 import { Grid, VStack, Skeleton, Box} from "@chakra-ui/react";
+
+// Import profile components
 import ProfilePost from "./ProfilePost";
-import { useState } from "react";
-import { useEffect } from "react";
 
 const ProfilePosts = () => {
+  // Set the loading state
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {

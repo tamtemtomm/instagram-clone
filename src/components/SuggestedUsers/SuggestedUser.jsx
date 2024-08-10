@@ -1,7 +1,11 @@
-import { Flex, Box, Button, Avatar, VStack } from "@chakra-ui/react";
+// Import dependencies
 import { useState } from "react";
 
+// Import ChakraUI components
+import { Flex, Box, Button, Avatar, VStack } from "@chakra-ui/react";
+
 const SuggestedUser = ({ name, followers, avatar }) => {
+  // Set the the isFollowed state
   const [isFollowed, setIsFollowed] = useState(false);
 
   return (

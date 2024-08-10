@@ -1,3 +1,4 @@
+// Import ChakraUI components
 import { Flex, Box, Avatar, Text } from "@chakra-ui/react";
 
 const PostHeader = ({username, avatar}) => {

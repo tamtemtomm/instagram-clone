@@ -1,3 +1,4 @@
+// Import ChakraUI components
 import { Flex, Avatar, Text } from "@chakra-ui/react";
 
 const Comment = ({ username, createdAt, profilePic, text }) => {

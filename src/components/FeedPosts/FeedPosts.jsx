@@ -1,3 +1,7 @@
+// Import dependencies
+import { useEffect, useState } from "react";
+
+// Import ChakraUI components
 import {
   Container,
   Box,
@@ -6,10 +10,12 @@ import {
   Skeleton,
   SkeletonCircle,
 } from "@chakra-ui/react";
+
+// Import feedpost compoonent
 import FeedPost from "./FeedPost";
-import { useEffect, useState } from "react";
 
 const FeedPosts = () => {
+  // Set the loading state
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {

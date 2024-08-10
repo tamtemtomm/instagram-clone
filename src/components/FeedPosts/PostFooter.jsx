@@ -1,3 +1,7 @@
+// Import dependencies
+import { useState } from "react";
+
+// Import ChakraUI components
 import {
   Flex,
   Box,
@@ -8,7 +12,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import { useState } from "react";
+// Import logos from constants
 import {
   NotificationsLogo,
   UnlikeLogo,
@@ -16,6 +20,7 @@ import {
 } from "../../assets/contants";
 
 const PostFooter = ({ username, isProfilePage }) => {
+  // Set liked state
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(1000);
 

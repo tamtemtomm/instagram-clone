@@ -1,3 +1,8 @@
+// Import hooks and store
+import useUserProfileStore from "../../store/userProfileStore";
+import useAuthStore from "../../store/authStore";
+
+// Import ChakraUI components
 import {
   Flex,
   AvatarGroup,
@@ -6,12 +11,16 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
-import useUserProfileStore from "../../store/userProfileStore";
-import useAuthStore from "../../store/authStore";
+
 
 const ProfileHeader = () => {
+  // Get the current userProfile data
   const { userProfile } = useUserProfileStore();
+
+  // Get the authenticated user
   const authUser = useAuthStore((state) => state.user);
+
+  // Check if the auth user visit their own page or not
   const visitingOwnProfileAndAuth =
     authUser && authUser.username === userProfile.username;
   const visitingAnotherProfileAndAuth =  authUser && authUser.username !== userProfile.username;

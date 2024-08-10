@@ -1,4 +1,7 @@
+// Import ChakraUI components
 import { Box, Image } from "@chakra-ui/react";
+
+// Import post components
 import PostHeader from "./PostHeader";
 import PostFooter from "./PostFooter";
 

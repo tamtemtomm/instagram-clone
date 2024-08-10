@@ -1,3 +1,4 @@
+// Import ChakraUI components
 import {
   GridItem,
   Box,
@@ -18,6 +19,7 @@ import { AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
+// Import post components
 import Comment from "../Common/Comment";
 import PostFooter from "../FeedPosts/PostFooter";
 
