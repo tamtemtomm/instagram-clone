@@ -1,3 +1,10 @@
+// Import dependencies
+import { useState } from "react";
+
+// Import login hooks
+import useLogin from "../../hooks/useLogin";
+
+// Import ChakraUI components
 import {
   Input,
   InputGroup,
@@ -7,18 +14,21 @@ import {
   AlertIcon,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { useState } from "react";
-import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
+
+  // Set the inputs state
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
   });
 
-  const { login, loading, error } = useLogin();
+  // Set the show state of the password input
   const [showPassword, setShowPassword] = useState(false);
 
+  // Get the login hooks instance
+  const { login, loading, error } = useLogin();
+  
   return (
     <>
       <Input

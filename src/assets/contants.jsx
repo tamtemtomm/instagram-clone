@@ -1,3 +1,5 @@
+// EXPORTS ALL OF THE ICON SVG
+
 export const InstagramLogo = () => (
   <svg
     aria-label="Instagram"

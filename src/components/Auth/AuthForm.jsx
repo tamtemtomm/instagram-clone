@@ -1,10 +1,16 @@
-import { Box, VStack, Image, Flex, Text } from "@chakra-ui/react";
+// Import dependencies
 import { useState } from "react";
+
+// Import ChakraUI Components
+import { Box, VStack, Image, Flex, Text } from "@chakra-ui/react";
+
+// Import Auth Components
 import Signup from "./Signup";
 import Login from "./Login";
 import GoogleAuth from "./GoogleAuth";
 
 const AuthForm = () => {
+  // Set the state of login or signup
   const [isLogin, setIsLogin] = useState(true);
 
   return (
