@@ -1,7 +1,6 @@
 // Import ChakraUI components
 import {
   GridItem,
-  Box,
   Flex,
   Text,
   Image,
@@ -14,6 +13,7 @@ import {
   ModalCloseButton,
   ModalBody,
   useDisclosure,
+  Button,
 } from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
@@ -22,9 +22,20 @@ import { MdDelete } from "react-icons/md";
 // Import post components
 import Comment from "../Common/Comment";
 import PostFooter from "../FeedPosts/PostFooter";
+import useUserProfileStore from "../../store/userProfileStore";
+import useAuthStore from "../../store/authStore";
 
-const ProfilePost = ({ img }) => {
+const ProfilePost = ({ post }) => {
+  // Set the modal state from ChakraUI
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // Get the current auth user
+  const authUser = useAuthStore((state) => state.user);
+
+  // Get the current targeted user
+  const userProfile = useUserProfileStore((state) => state.userProfile);
+
+  // console.log(post)
 
   return (
     <>
@@ -56,19 +67,19 @@ const ProfilePost = ({ img }) => {
             <Flex>
               <AiFillHeart size={20} />
               <Text fontWeight={"bold"} ml={2}>
-                7
+                {post.likes.length}
               </Text>
             </Flex>
             <Flex>
               <FaComment size={20} />
               <Text fontWeight={"bold"} ml={2}>
-                7
+                {post.comments.length}
               </Text>
             </Flex>
           </Flex>
         </Flex>
         <Image
-          src={img}
+          src={post.imageURL}
           alt="post img"
           w={"100%"}
           h={"100%"}
@@ -90,16 +101,20 @@ const ProfilePost = ({ img }) => {
               gap={4}
               w={{ base: "90%", sm: "70%", md: "full" }}
               mx={"auto"}
+              maxH={"90vh"}
+              minH={"50vh"}
             >
-              <Box
+              <Flex
                 borderRadius={4}
                 overflow={"hidden"}
                 border={"1px solid"}
                 borderColor={"whiteAlpha.300"}
                 flex={1.5}
+                justifyContent={"center"}
+                alignItems={"center"}
               >
-                <Image src={img}></Image>
-              </Box>
+                <Image src={post.imageURL}></Image>
+              </Flex>
 
               <Flex
                 flex={1}
@@ -109,18 +124,26 @@ const ProfilePost = ({ img }) => {
               >
                 <Flex alignItems={"center"} justifyContent={"space-between"}>
                   <Flex alignItems={"center"} gap={4}>
-                    <Avatar src="profilepic.png" size={"sm"} name="Tamtemtom" />
+                    <Avatar
+                      src={userProfile.profilePicURL}
+                      size={"sm"}
+                      name="Tamtemtom"
+                    />
                     <Text fontWeight={"bold"} fontSize={12}>
-                      Tamtemtom
+                      {userProfile.username}
                     </Text>
                   </Flex>
-                  <Box
-                    _hover={{ bg: "whiteAlpha.300", color: "red.600" }}
-                    borderRadius={4}
-                    p={1}
-                  >
-                    <MdDelete size={20} cursor={"pointer"} />
-                  </Box>
+                  {authUser?.uid === userProfile.uid && (
+                    <Button
+                      size={"sm"}
+                      bg={"transparent"}
+                      _hover={{ bg: "whiteAlpha.300", color: "red.600" }}
+                      borderRadius={4}
+                      p={1}
+                    >
+                      <MdDelete size={20} cursor={"pointer"} />
+                    </Button>
+                  )}
                 </Flex>
                 <Divider my={4} bg={"gray.500"} />
                 <VStack
@@ -129,42 +152,6 @@ const ProfilePost = ({ img }) => {
                   maxH={"350px"}
                   overflowY={"auto"}
                 >
-                  <Comment
-                    createdAt="1d ago"
-                    username="tamtemtom"
-                    profilePic="/profilepic.png"
-                    text={"Dummy images from splash"}
-                  />
-                  <Comment
-                    createdAt="1d ago"
-                    username="tamtemtom"
-                    profilePic="/profilepic.png"
-                    text={"Dummy images from splash"}
-                  />
-                  <Comment
-                    createdAt="1d ago"
-                    username="tamtemtom"
-                    profilePic="/profilepic.png"
-                    text={"Dummy images from splash"}
-                  />
-                  <Comment
-                    createdAt="1d ago"
-                    username="tamtemtom"
-                    profilePic="/profilepic.png"
-                    text={"Dummy images from splash"}
-                  />
-                  <Comment
-                    createdAt="1d ago"
-                    username="tamtemtom"
-                    profilePic="/profilepic.png"
-                    text={"Dummy images from splash"}
-                  />
-                  <Comment
-                    createdAt="1d ago"
-                    username="tamtemtom"
-                    profilePic="/profilepic.png"
-                    text={"Dummy images from splash"}
-                  />
                   <Comment
                     createdAt="1d ago"
                     username="tamtemtom"
