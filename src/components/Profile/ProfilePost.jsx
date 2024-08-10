@@ -19,11 +19,19 @@ import { AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
+// Import hooks
+import useUserProfileStore from "../../store/userProfileStore";
+import useAuthStore from "../../store/authStore";
+import useShowToast from "../../hooks/useShowToast";
+
 // Import post components
 import Comment from "../Common/Comment";
 import PostFooter from "../FeedPosts/PostFooter";
-import useUserProfileStore from "../../store/userProfileStore";
-import useAuthStore from "../../store/authStore";
+import { useState } from "react";
+import { firestore, storage } from "../../firebase/firebase";
+import { deleteObject, ref } from "firebase/storage";
+import { arrayRemove, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import usePostStore from "../../store/postStore";
 
 const ProfilePost = ({ post }) => {
   // Set the modal state from ChakraUI
@@ -35,7 +43,66 @@ const ProfilePost = ({ post }) => {
   // Get the current targeted user
   const userProfile = useUserProfileStore((state) => state.userProfile);
 
-  // console.log(post)
+  // Get the toast
+  const showToast = useShowToast();
+
+  // ---------------------------------------------------------------------
+  // Initialize deletePost function
+  // Set the delete loading state
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  // Get the delete store hooks form global state
+  const deletePost = usePostStore((state) => state.deletePost);
+
+  // Get delete post from profile state hooks
+  const deletePostFromProfile = useUserProfileStore(
+    (state) => state.deletePost
+  );
+
+  const handleDeletePost = async () => {
+    // Check confirmation
+    if (!window.confirm("Are you sure you want to delete this post?")) return;
+
+    // Check if it's already deleting to prevent clicking repeatedly
+    if (isDeleting) return;
+
+    // Set the loading state on
+    setIsDeleting(true);
+
+    try {
+      // Get the imageRef in storage
+      const imageRef = ref(storage, `posts/${post.id}`);
+
+      // Delete image from storage
+      await deleteObject(imageRef);
+
+      // Delete in posts collection
+      await deleteDoc(doc(firestore, "posts", post.id));
+
+      // Get the user ref
+      const userRef = doc(firestore, "users", authUser.uid);
+
+      // Update posts field in user
+      await updateDoc(userRef, { posts: arrayRemove(post.id) });
+
+      // Update the global post state
+      deletePost(post.id);
+
+      // Update the global user state
+      deletePostFromProfile(post.id);
+
+      // Toast the succes
+      showToast("Success", "Post deleted successfully", "success");
+
+      // Toast the error
+    } catch (err) {
+      showToast("Error", err.message, "error");
+
+      // Release the laoding state
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <>
@@ -140,6 +207,8 @@ const ProfilePost = ({ post }) => {
                       _hover={{ bg: "whiteAlpha.300", color: "red.600" }}
                       borderRadius={4}
                       p={1}
+                      isLoading={isDeleting}
+                      onClick={handleDeletePost}
                     >
                       <MdDelete size={20} cursor={"pointer"} />
                     </Button>
