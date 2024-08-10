@@ -10,8 +10,9 @@ import {
   VStack,
   Text,
   Button,
+  useDisclosure,
 } from "@chakra-ui/react";
-
+import EditProfile from "./EditProfile";
 
 const ProfileHeader = () => {
   // Get the current userProfile data
@@ -23,7 +24,11 @@ const ProfileHeader = () => {
   // Check if the auth user visit their own page or not
   const visitingOwnProfileAndAuth =
     authUser && authUser.username === userProfile.username;
-  const visitingAnotherProfileAndAuth =  authUser && authUser.username !== userProfile.username;
+  const visitingAnotherProfileAndAuth =
+    authUser && authUser.username !== userProfile.username;
+
+  // Initialize ChakraUI Modal for edit profile
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Flex
@@ -63,6 +68,7 @@ const ProfileHeader = () => {
                 color={"black"}
                 _hover={{ bg: "whiteAlpha.500" }}
                 size={{ base: "xs", md: "sm" }}
+                onClick={onOpen}
               >
                 Edit Profile
               </Button>
@@ -109,6 +115,7 @@ const ProfileHeader = () => {
         </Flex>
         <Text fontSize={"sm"}>{userProfile.bio}</Text>
       </VStack>
+      {isOpen && <EditProfile isOpen={isOpen} onClose={onClose} />}
     </Flex>
   );
 };
