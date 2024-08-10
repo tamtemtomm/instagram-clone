@@ -1,9 +1,26 @@
-import { Container, Flex } from "@chakra-ui/react";
+import {
+  Container,
+  Flex,
+  Text,
+  Link,
+  SkeletonCircle,
+  VStack,
+  Skeleton,
+} from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import ProfileHeader from "../../components/Profile/ProfileHeader";
 import ProfileTabs from "../../components/Profile/ProfileTabs";
 import ProfilePosts from "../../components/Profile/ProfilePosts";
+import useGetUserProfileByUsername from "../../hooks/useGetUserProfileByUsername";
+import { useParams } from "react-router-dom";
 
 const Profile = () => {
+  const { username } = useParams();
+  const { userProfile, isLoading } = useGetUserProfileByUsername(username);
+  const userNotFound = !isLoading && !userProfile;
+  if (userNotFound) {
+    return <UserNotFound />;
+  }
   return (
     <Container maxW={"container.lg"} py={5}>
       <Flex
@@ -14,7 +31,8 @@ const Profile = () => {
         mx={"auto"}
         flexDirection={"column"}
       >
-        <ProfileHeader />
+        {!isLoading && userProfile && <ProfileHeader />}
+        {isLoading && <ProfileHeaderSkeleton/>}
       </Flex>
       <Flex
         px={{ base: 2, sm: 4 }}
@@ -28,6 +46,46 @@ const Profile = () => {
         <ProfilePosts />
       </Flex>
     </Container>
+  );
+};
+
+const ProfileHeaderSkeleton = () => {
+  return (
+    <Flex
+      gap={{ base: 4, sm: 10 }}
+      py={10}
+      direction={{ base: "column", sm: "row" }}
+      justifyContent={"center"}
+      alignItems={"center"}
+    >
+      <SkeletonCircle size={"24"} />
+      <VStack
+        alignItems={{ base: "center", sm: "flex-start" }}
+        gap={2}
+        mx={"auto"}
+        flex={1}
+      >
+        <Skeleton h={"12px"} w={"150px"}></Skeleton>
+        <Skeleton h={"12px"} w={"150px"}></Skeleton>
+      </VStack>
+    </Flex>
+  );
+};
+
+const UserNotFound = () => {
+  return (
+    <Flex direction={"column"} textAlign={"center"} mx={"auto"}>
+      <Text fontSize={"2xl"}>User not found</Text>
+      <Link
+        as={RouterLink}
+        to={"/"}
+        color={"blue.500"}
+        w={"max-content"}
+        mx={"auto"}
+      >
+        Go Home
+      </Link>
+    </Flex>
   );
 };
 

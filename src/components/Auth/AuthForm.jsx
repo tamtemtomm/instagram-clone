@@ -1,10 +1,4 @@
-import {
-  Box,
-  VStack,
-  Image,
-  Flex,
-  Text,
-} from "@chakra-ui/react";
+import { Box, VStack, Image, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import Signup from "./Signup";
 import Login from "./Login";
@@ -41,7 +35,7 @@ const AuthForm = () => {
             <Box flex={2} h={"1px"} bg={"gray.400"} />
           </Flex>
 
-          <GoogleAuth/>
+          <GoogleAuth prefix={isLogin ? "Login" : "Signup"} />
         </VStack>
       </Box>
       <Box border={"1px solid gray"} borderRadius={4} p={5}>
