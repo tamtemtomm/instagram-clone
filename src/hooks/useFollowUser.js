@@ -14,8 +14,8 @@ const useFollowUser = (userId) => {
   const [isFollowing, setIsFollowing] = useState(false);
 
   // Get the current auth user and it's setter
-  const authUser = useAuthStore((state) => state.user)
-  const setAuthUser = useAuthStore((state) => state.setUser)
+  const authUser = useAuthStore((state) => state.user);
+  const setAuthUser = useAuthStore((state) => state.setUser);
 
   // Get the current user page profile and it's setter
   const { userProfile, setUserProfile } = useUserProfileStore();
@@ -59,12 +59,14 @@ const useFollowUser = (userId) => {
         });
 
         // Remove the current user uid from the targeted user follower array
-        setUserProfile({
-          ...userProfile,
-          followers: userProfile.followers.filter(
-            (uid) => uid !== authUser.uid
-          ),
-        });
+        if (userProfile) {
+          setUserProfile({
+            ...userProfile,
+            followers: userProfile.followers.filter(
+              (uid) => uid !== authUser.uid
+            ),
+          });
+        }
 
         // Update the local storage
         localStorage.setItem(
@@ -87,10 +89,12 @@ const useFollowUser = (userId) => {
         });
 
         // Add the current user id into targeted user follower array
-        setUserProfile({
-          ...userProfile,
-          followers: [...userProfile.followers, authUser.uid],
-        });
+        if (userProfile) {
+          setUserProfile({
+            ...userProfile,
+            followers: [...userProfile.followers, authUser.uid],
+          });
+        }
 
         // Update the local Storage
         localStorage.setItem(

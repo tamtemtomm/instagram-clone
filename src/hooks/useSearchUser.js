@@ -17,6 +17,7 @@ const useSearchUser = () => {
   // Initialize the getUserProfile function
   const getUserProfile = async (username) => {
     setIsLoading(true);
+    setUser(null);
     try {
       // Set the query
       const q = query(
