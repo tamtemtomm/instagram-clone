@@ -1,6 +1,7 @@
 // Import hooks and store
 import useUserProfileStore from "../../store/userProfileStore";
 import useAuthStore from "../../store/authStore";
+import useFollowUser from "../../hooks/useFollowUser";
 
 // Import ChakraUI components
 import {
@@ -12,7 +13,10 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
+
+// Import edit profile modal
 import EditProfile from "./EditProfile";
+
 
 const ProfileHeader = () => {
   // Get the current userProfile data
@@ -21,14 +25,17 @@ const ProfileHeader = () => {
   // Get the authenticated user
   const authUser = useAuthStore((state) => state.user);
 
+  // Get the follow unfollow hooks
+  const { isFollowing, isUpdating, handleFollowUser } = useFollowUser(userProfile?.uid);
+
+  // Initialize ChakraUI Modal for edit profile
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   // Check if the auth user visit their own page or not
   const visitingOwnProfileAndAuth =
     authUser && authUser.username === userProfile.username;
   const visitingAnotherProfileAndAuth =
     authUser && authUser.username !== userProfile.username;
-
-  // Initialize ChakraUI Modal for edit profile
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Flex
@@ -81,8 +88,10 @@ const ProfileHeader = () => {
                 color={"white"}
                 _hover={{ bg: "blue.600" }}
                 size={{ base: "xs", md: "sm" }}
+                onClick={handleFollowUser}
+                isLoading={isUpdating}
               >
-                Follow
+                {isFollowing ? "Unfollow" : "Follow"}
               </Button>
             </Flex>
           )}
