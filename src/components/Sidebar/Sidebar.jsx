@@ -3,7 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 import {
   InstagramLogo,
   InstagramMobileLogo,
-} from "../../assets/contants";
+} from "../../assets/constants";
 
 import SidebarItems from "./SidebarItems";
 import { BiLogOut } from "react-icons/bi";

@@ -17,7 +17,7 @@ import {
   NotificationsLogo,
   UnlikeLogo,
   CommentLogo,
-} from "../../assets/contants";
+} from "../../assets/constants";
 
 const PostFooter = ({ username, isProfilePage }) => {
   // Set liked state

@@ -1,5 +1,5 @@
 import { Box, Flex, Tooltip } from "@chakra-ui/react";
-import { NotificationsLogo } from "../../assets/contants";
+import { NotificationsLogo } from "../../assets/constants";
 
 const SidebarNotifications = () => {
 	return (
