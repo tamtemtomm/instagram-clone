@@ -1,4 +1,4 @@
-// IMport dependencies
+// Import dependencies
 import { useLocation } from "react-router-dom";
 import { useRef, useState } from "react";
 
