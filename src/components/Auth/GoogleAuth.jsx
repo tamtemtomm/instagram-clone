@@ -75,7 +75,7 @@ const GoogleAuth = ({ prefix }) => {
           // Update the automatically followed account
           defaultFollowedAccount.forEach(async (account) => {
             const accountRef = doc(firestore, "users", account);
-            await updateDoc(accountRef, { followers: arrayUnion(account) });
+            await updateDoc(accountRef, { followers: arrayUnion(newUser.user.uid) });
           });
 
           // Save the credentials into local storage

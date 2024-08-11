@@ -70,7 +70,7 @@ const useSignUpWithEmailAndPassword = () => {
         // Update the automatically updated account
         defaultFollowedAccount.forEach(async (account) => {
           const accountRef = doc(firestore, "users", account);
-          await updateDoc(accountRef, { followers: arrayUnion(account) });
+          await updateDoc(accountRef, { followers: arrayUnion(newUser.user.uid) });
         });
 
         localStorage.setItem(
