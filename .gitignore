@@ -8,7 +8,6 @@ pnpm-debug.log*
 lerna-debug.log*
 
 .env
-firebase
 node_modules
 dist
 dist-ssr
