@@ -1,3 +1,6 @@
+// Import dependencies
+import { useState } from "react";
+
 // Import ChakraUI components
 import {
   GridItem,
@@ -24,14 +27,19 @@ import useUserProfileStore from "../../store/userProfileStore";
 import useAuthStore from "../../store/authStore";
 import useShowToast from "../../hooks/useShowToast";
 
-// Import post components
-import Comment from "../Common/Comment";
-import PostFooter from "../FeedPosts/PostFooter";
-import { useState } from "react";
+// Import store
+import usePostStore from "../../store/postStore";
+
+// Import firebase dependencies
 import { firestore, storage } from "../../firebase/firebase";
 import { deleteObject, ref } from "firebase/storage";
 import { arrayRemove, deleteDoc, doc, updateDoc } from "firebase/firestore";
-import usePostStore from "../../store/postStore";
+
+// Import post components
+import Comment from "../Common/Comment";
+import Caption from "../Common/Caption";
+import PostFooter from "../FeedPosts/PostFooter";
+
 
 const ProfilePost = ({ post }) => {
   // Set the modal state from ChakraUI
@@ -55,9 +63,7 @@ const ProfilePost = ({ post }) => {
   const deletePost = usePostStore((state) => state.deletePost);
 
   // Get delete post from profile state hooks
-  const deletePostFromProfile = useUserProfileStore(
-    (state) => state.deletePost
-  );
+  const decrementPostsCount = useUserProfileStore((state) => state.deletePost);
 
   const handleDeletePost = async () => {
     // Check confirmation
@@ -89,7 +95,7 @@ const ProfilePost = ({ post }) => {
       deletePost(post.id);
 
       // Update the global user state
-      deletePostFromProfile(post.id);
+      decrementPostsCount(post.id);
 
       // Toast the succes
       showToast("Success", "Post deleted successfully", "success");
@@ -116,7 +122,6 @@ const ProfilePost = ({ post }) => {
         aspectRatio={1 / 1}
         onClick={onOpen}
       >
-        {" "}
         <Flex
           opacity={0}
           _hover={{ opacity: 1 }}
@@ -221,21 +226,18 @@ const ProfilePost = ({ post }) => {
                   maxH={"350px"}
                   overflowY={"auto"}
                 >
-                  <Comment
-                    createdAt="1d ago"
-                    username="tamtemtom"
-                    profilePic="/profilepic.png"
-                    text={"Dummy images from splash"}
-                  />
-                  <Comment
-                    createdAt="1d ago"
-                    username="tamtemtom"
-                    profilePic="/profilepic.png"
-                    text={"Dummy images from splash"}
-                  />
+                  {/* CAPTION */}
+                  {post.caption && <Caption post={post}/>}
+
+
+                  {/* COMMENTS */}
+                  {post.comments.map((comment) => (
+                    <Comment key={comment.id} comment={comment} />
+                  ))}
+
                 </VStack>
                 <Divider my={4} bg={"gray.800"} />
-                <PostFooter isProfilePage={true} />
+                <PostFooter post={post} isProfilePage={true} />
               </Flex>
             </Flex>
           </ModalBody>
