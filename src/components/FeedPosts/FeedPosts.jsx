@@ -1,6 +1,3 @@
-// Import dependencies
-import { useEffect, useState } from "react";
-
 // Import ChakraUI components
 import {
   Container,
@@ -9,24 +6,25 @@ import {
   Flex,
   Skeleton,
   SkeletonCircle,
+  Text,
 } from "@chakra-ui/react";
 
 // Import feedpost compoonent
 import FeedPost from "./FeedPost";
 
+// Import feesposts hooks
+import useGetFeedPosts from "../../hooks/useGetFeedPosts";
+
 const FeedPosts = () => {
-  // Set the loading state
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, []);
+  // Use getFeedposts hooks
+  const { isLoading, posts } = useGetFeedPosts();
+
+  // console.log(posts)
 
   return (
     <Container maxW={"container.sm"} py={10} px={2}>
       {isLoading &&
-        [0, 1, 2, 3].map((_, idx) => (
+        [0, 1, 2].map((_, idx) => (
           <VStack key={idx} gap={4} alignItems={"flex-start"} mb={10}>
             <Flex gap={2}>
               <SkeletonCircle size={10}></SkeletonCircle>
@@ -36,21 +34,20 @@ const FeedPosts = () => {
               </VStack>
             </Flex>
             <Skeleton w={"full"}>
-              <Box h={"500px"}>Contents wrapped</Box>
+              <Box h={"400px"}>Contents wrapped</Box>
             </Skeleton>
           </VStack>
         ))}
 
-      {!isLoading && (
+      {!isLoading &&
+        posts.length !== 0 &&
+        posts.map((post) => <FeedPost key={post.id} post={post} />)}
+      {!isLoading && posts.length === 0 && (
         <>
-          <FeedPost
-            img="/img1.png"
-            username="burakorkmezz"
-            avatar="/img1.png"
-          />
-          <FeedPost img="/img2.png" username="josh" avatar="/img2.png" />
-          <FeedPost img="/img3.png" username="jane doe" avatar="/img3.png" />
-          <FeedPost img="/img4.png" username="john doe" avatar="/img4.png" />
+          <Text fontSize={"md"} color={"red.400"}>
+            Dayuum. Looks like you don&apos;t have any friends.
+          </Text>
+          <Text color={"red.400"}>Stop coding and go make some!!</Text>
         </>
       )}
     </Container>

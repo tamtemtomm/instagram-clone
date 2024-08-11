@@ -1,6 +1,6 @@
 // Import dependencies
 import { Link } from "react-router-dom";
-import { timeAgo } from "../../utils/timeAgp";
+import { timeAgo } from "../../utils/timeAgo";
 
 // Import ChakraUI components
 import { Flex, Avatar, Text, SkeletonCircle, Skeleton } from "@chakra-ui/react";
