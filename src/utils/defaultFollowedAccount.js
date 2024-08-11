@@ -1,7 +1,7 @@
 const defaultFollowedAccount = [
-  "bcU2Con1NjciPexRUQwJIsFRGH92",
-  "7M61G1RV8rTjkWiIQD8LuwO4wd63",
-  "blEuw0moDeM7UCzn5voBsUrXhrl2",
+  "CsIUNrExvKZibgkdtNZBDgl6HBA3",
+  "jj9gKdOBlNczqIF57Wv5z8JWTkl2",
+  "n0rVuQKIg2fD3FcDiUZPeLCbZeR2"
 ];
 
 export default defaultFollowedAccount;
