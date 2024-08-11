@@ -8,8 +8,10 @@ import {
 } from "firebase/firestore";
 import { auth, firestore } from "../firebase/firebase";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { updateDoc, arrayUnion } from "firebase/firestore";
 import useShowToast from "./useShowToast";
 import useAuthStore from "../store/authStore";
+import defaultFollowedAccount from "../utils/defaultFollowedAccount";
 
 const useSignUpWithEmailAndPassword = () => {
   const [createUserWithEmailAndPassword, , loading, error] =
@@ -57,12 +59,20 @@ const useSignUpWithEmailAndPassword = () => {
           bio: "",
           profilePicURL: "",
           followers: [],
-          following: [],
+          following: [...defaultFollowedAccount],
           posts: [],
           createdAt: Date.now(),
         };
 
+        // Add a new account in db
         await setDoc(doc(firestore, "users", newUser.user.uid), userDocument);
+
+        // Update the automatically updated account
+        defaultFollowedAccount.forEach(async (account) => {
+          const accountRef = doc(firestore, "users", account);
+          await updateDoc(accountRef, { followers: arrayUnion(account) });
+        });
+
         localStorage.setItem(
           "user-info-instagram-clone",
           JSON.stringify(userDocument)

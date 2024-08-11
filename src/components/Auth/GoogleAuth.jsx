@@ -1,6 +1,6 @@
 // Import Firebase Dependencies
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { setDoc, doc, getDoc } from "firebase/firestore";
+import { setDoc, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { auth, firestore } from "../../firebase/firebase";
 
 // Import Hooks and Store
@@ -10,9 +10,12 @@ import useAuthStore from "../../store/authStore";
 // Import ChakraUI Components
 import { Flex, Image, Text } from "@chakra-ui/react";
 
+// Import default followed account
+import defaultFollowedAccount from "../../utils/defaultFollowedAccount";
+
 const GoogleAuth = ({ prefix }) => {
   // Get authenticated user
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  const [signInWithGoogle, , , error] = useSignInWithGoogle(auth);
 
   // Get showToast Hooks
   const showToast = useShowToast();
@@ -52,7 +55,7 @@ const GoogleAuth = ({ prefix }) => {
           // Set the zustand global state
           loginUser(userDoc);
 
-        //  if not sign up, save hthe credentials in db
+          //  if not sign up, save hthe credentials in db
         } else {
           const userDoc = {
             uid: newUser.user.uid,
@@ -62,12 +65,18 @@ const GoogleAuth = ({ prefix }) => {
             bio: "",
             profilePicURL: newUser.user.photoURL,
             followers: [],
-            following: [],
+            following: [...defaultFollowedAccount],
             posts: [],
             createdAt: Date.now(),
           };
           // Save the userdoc into db
           await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);
+
+          // Update the automatically followed account
+          defaultFollowedAccount.forEach(async (account) => {
+            const accountRef = doc(firestore, "users", account);
+            await updateDoc(accountRef, { followers: arrayUnion(account) });
+          });
 
           // Save the credentials into local storage
           localStorage.setItem(
